@@ -8,6 +8,7 @@ https://nobootrecord.codeberg.page
 */
 
 /* Load Inter font from Google Fonts */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap');
 
 /* === General page and elements configuration === */
@@ -42,41 +43,36 @@ s:hover { filter: blur(0px); transition: 1s ease; }
 .button {
     padding: 8px 32px 8px 32px; width: fit-content;
     cursor: pointer;
-    background: transparent;
-	text-decoration: none;
-    transition: 0.5s ease;
+    background: transparent; text-decoration: none;
+    transition: 0.8s ease;
 }
 .button:hover {
 	text-decoration: none;
     color: blue; border: 1px solid blue;
     animation: huerotate 6s 0s infinite linear;
-    transition: 0.5s ease;
+    transition: 0.2s ease;
 }
 .button:active {
 	text-decoration: none;
     animation: huerotate 6s 0s infinite linear;
     background: blue; border: 1px solid blue; color: white;
-    transition: 0.5s ease;
+    transition: 0.2s ease;
 }
 
 .menu {
-    font-size: 24px;
-    width: fit-content; height: 24px; line-height: 20px;
-	margin-top: -28px;
-    padding: 18px 16px 2px 16px;
+    font-size: 22px;
     overflow: hidden;
     text-align: center;
-    transition: 0.5s ease;
 }
 .menubtn {
 	padding: 2px 16px 2px 16px;
-	transition: 0.5s ease;
+	transition: 0.8s ease;
 }
 .menubtn:hover {
 	text-decoration: none;
-	background: blue; color: black;
+	color: blue;
 	animation: huerotate 6s 0s infinite linear;
-	transition: 0.5s ease;
+	transition: 0.2s ease;
 }
 
 /* === Light theme === */
@@ -87,23 +83,22 @@ s:hover { filter: blur(0px); transition: 1s ease; }
     hr { color: black; }
     .box { border: 1px solid black; }
     .button { border: 1px solid black; color: black; }
-    .menu { background: #FFFFFF; color: black; box-shadow: 0px 0px 10px black; }
 }
 
 /* === Dark theme === */
 
 @media (prefers-color-scheme: dark) {
     body { background: black; color: white; }
-	a { color: white; }
+    a { color: white; }
     hr { color: white; }
     .box { border: 1px solid white; }
     .button { border: 1px solid white; color: white; }
-    .menu { background: #000000; color: white; box-shadow: 0px 0px 10px white; }
 }
 
 /* === Animations === */
 
 /* Fly from the side */
+
 @keyframes flyleft {
     from { transform: translate(200%, 0); }
     to { transform: translate(0, 0); opacity: 100%; }
@@ -126,6 +121,7 @@ s:hover { filter: blur(0px); transition: 1s ease; }
 .flydown { transform: translate(0, -200%); opacity: 0%; }
 
 /* Fading */
+
 @keyframes fadein {
     from { opacity: 0%; }
     to { opacity: 100%; }    
@@ -138,6 +134,7 @@ s:hover { filter: blur(0px); transition: 1s ease; }
 .fadeout { opacity: 100%; }
 
 /* Color changing */
+
 @keyframes huerotate {
     from { filter: hue-rotate(0deg); }
     to { filter: hue-rotate(360deg); }
