@@ -1,0 +1,254 @@
+const trigger = document.getElementById('click-trigger');
+const introStage = document.getElementById('intro-stage');
+const mainSite = document.getElementById('main-site');
+const audio = document.getElementById('audio');
+const lyricsBox = document.getElementById('lyrics-box');
+const progressBar = document.getElementById('progress-bar');
+
+const playlist = [
+    { 
+        title: "виски с молоком", 
+        artist: "снялцепи", 
+        img: "1.png", 
+        src: "1.mp3",
+        lyrics: [
+            { time: 0, text: "(музыка)" },
+            { time: 1.4, text: "я лью пиздатый виски" },
+            { time: 3.1, text: "с белым молокооом!" },
+            { time: 5.6, text: "она не знает меня" },
+            { time: 7.3, text: "что было потом (она не знает)" },
+            { time: 9.7, text: "ей нужен большой дядя" },
+            { time: 11.2, text: "с большим кошелькооом!" },
+            { time: 13.7, text: "таблетки дали о се знать" },
+            { time: 15.8, text: "только в одном (только в одном)" },
+            { time: 17.8, text: "и я тупой" },
+            { time: 18.9, text: "она думает я гандон" },
+            { time: 21.9, text: "мол, потому-что я пью виски с молоком" },
+            { time: 26.0, text: "весь преппарат в тебе" },
+            { time: 27.5, text: "и ты лежишь под мостом" },
+            { time: 30.0, text: "прости, малыш, я не хотел быть слабаком" },
+            { time: 33.1, text: "щас буду говорить типа пьяный" },
+            { time: 35.2, text: "бездельник, мои руки в карманы" },
+            { time: 37.5, text: "слезы лечат только заны" },
+            { time: 39.0, text: "смотри на мя, залижи мои раныы" },
+            { time: 41.3, text: "щас буду говорить типа пьяный" },
+            { time: 43.5, text: "бездельник, мои руки в карманы" },
+            { time: 45.7, text: "слезы лечат только заны" },
+            { time: 47.1, text: "смотри на мя, залижи мои раныы" },
+            { time: 55.6, text: "смотри на мя, залижи мои раныы!" }
+        ]
+    },
+    { 
+        title: "пісня про ромашку", 
+        artist: "хейтспіч", 
+        img: "2.png", 
+        src: "2.mp3",
+        lyrics: [
+            { time: 4.6, text: "Вітер в полі хитає квіти" },
+			{ time: 8.3, text: "Хто ці уйобки, що вчать мене жити?" },
+			{ time: 11.8, text: "Над полем в небі пролітає пташка" },
+			{ time: 15.3, text: "Мені скаже як жити тендітна ромашка" },
+			{ time: 18.8, text: "Ро-ма-шка!" },
+			{ time: 22.5, text: "Ро-ма-шка!" },
+			{ time: 33.1, text: "Розумні люди, все знають люди" },
+			{ time: 36.6, text: "Інтелігенти в курсі, що нам робити" },
+			{ time: 40.2, text: "В завалах копаються тільки дурні" },
+			{ time: 43.7, text: "З рушницями в полі вчорашні діти" },
+			{ time: 47.3, text: "Очі не хочуть, неначе осліплені" },
+			{ time: 50.8, text: "Буває заплакати навіть не вийде" },
+			{ time: 54.4, text: "Дослухайте, якщо вам не буде тяжко" },
+			{ time: 57.9, text: "Бо ви ж так просили — співаю про ромашку" },
+			{ time: 61.4, text: "Вітер в полі хитає квіти" },
+			{ time: 65.0, text: "Хто ці уйобки, що вчать мене жити?" },
+			{ time: 68.5, text: "Над полем в небі пролітає пташка" },
+			{ time: 72.0, text: "Мені скаже як жити тендітна ромашка" },
+			{ time: 75.5, text: "Хто ці люди, що вчать мене жити?" },
+			{ time: 79.1, text: "Що мені заспівати та про що говорити?" },
+			{ time: 82.6, text: "Пачка цигарок, пива півторашка" },
+			{ time: 86.1, text: "Вони всього лиш квіти, тендітні ромашки" },
+			{ time: 89.8, text: "Все ж ми йшли, скільки б не падали" },
+			{ time: 93.2, text: "Хто кричав про вірність, ті перши зрадили" },
+			{ time: 96.8, text: "Половина в дамки, половина в нулі" },
+			{ time: 100.3, text: "Хто грав в сміливих — перші втекли" },
+			{ time: 103.8, text: "Лиш широкий ковток наповнить діафрагму" },
+			{ time: 107.4, text: "Залізні груди" },
+			{ time: 110.9, text: "Як же я ненавиджу людство" },
+			{ time: 114.4, text: "І я так люблю вас люди" },
+			{ time: 118.0, text: "Вже не боюсь і чекаю моменту" },
+			{ time: 121.5, text: "Як стану літнім дощем" },
+			{ time: 125.0, text: "Стану вітром, що зриває шифер" },
+			{ time: 128.6, text: "Або граючим в пічці вогнем" },
+			{ time: 132.1, text: "Всередині нічого не зворушиться" },
+			{ time: 135.6, text: "Від телеекранної драми" },
+			{ time: 139.2, text: "Бо серце моє стало каменем" },
+			{ time: 142.7, text: "Руки мої стали ножами" },
+			{ time: 146.3, text: "Вітер в полі хитає квіти" },
+			{ time: 149.8, text: "Хто ці уйобки, що вчать мене жити?" },
+			{ time: 153.3, text: "Над полем в небі пролітає пташка" },
+			{ time: 156.9, text: "Мені скаже як жити тендітна ромашка" },
+			{ time: 160.4, text: "Хто ці люди, що вчать мене жити?" },
+			{ time: 163.9, text: "Що мені заспівати та про що говорити?" },
+			{ time: 167.4, text: "Пачка цигарок, пива півторашка" },
+			{ time: 171.0, text: "Вони всього лиш квіти, тендітні ромашки" }
+        ]
+    },
+    { 
+        title: "темный принц", 
+        artist: "свалка", 
+        img: "3.png", 
+        src: "3.mp3",
+        lyrics: [
+            { time: 0, text: "(музыка)" },
+			{ time: 5.3, text: "громкий стук об твою дверь" },
+			{ time: 8.1, text: "и я ломаю руки в кровь" },
+			{ time: 11.6, text: "утром снова в ателье" },
+			{ time: 14.2, text: "мне сшили новое лицо" },
+			{ time: 17.7, text: "смотрю на то как ты спишь" },
+			{ time: 20.5, text: "и видишь самый сладкий сон" },
+			{ time: 23.7, text: "просто оставь меня на мусорной свалке" },
+			{ time: 28.9, text: "мне место среди" },
+			{ time: 32.4, text: "битых машиин" },
+			{ time: 34.7, text: "и, мертвых петель" },
+			{ time: 40.2, text: "вы-бро-шен-ный" },
+			{ time: 43.2, text: "(музыка)" },
+			{ time: 50.1, text: "громкий стук об твою дверь" },
+			{ time: 53.0, text: "и я ломаю руки в кровь" },
+			{ time: 56.4, text: "утром снова в ателье" },
+			{ time: 59.1, text: "мне сшили новое лицо" },
+			{ time: 62.5, text: "смотрю на то как ты спишь" },
+			{ time: 65.3, text: "и видишь самый сладкий сон" },
+			{ time: 68.6, text: "а я спресованный в коробку" },
+			{ time: 71.6, text: "буду вспоминать лицо..." }
+        ]
+    }
+];
+let currentTrack = 0;
+
+gsap.set("#full-bio", { height: 0, opacity: 0 });
+gsap.set("#full-archive", { height: 0, opacity: 0 });
+
+trigger.addEventListener('click', () => {
+    gsap.to(trigger, { opacity: 0, duration: 0.3, onComplete: () => trigger.style.display = 'none' });
+    introStage.style.display = 'flex';
+    
+    audio.volume = 0;
+    try { audio.play(); } catch(e) {}
+    gsap.to(audio, { volume: 0.3, duration: 2 });
+    loadLyrics(currentTrack);
+
+    const container = document.getElementById('blocks-container');
+    for(let i=0; i<45; i++) {
+        const b = document.createElement('div');
+        b.className = 'intro-block';
+        let size = Math.random() * 100 + 40;
+        Object.assign(b.style, { width: size+'px', height: size+'px', left: Math.random()*100+'%', top: Math.random()*100+'%', opacity: 0 });
+        container.appendChild(b);
+    }
+
+    const tl = gsap.timeline();
+    tl.to(".intro-block", { opacity: 0.15, scale: 1, duration: 1, stagger: { amount: 0.8 }, ease: "power2.out" });
+    tl.from(".split-text", { y: 30, opacity: 0, duration: 1, stagger: 0.2 }, "-=0.8");
+    
+    tl.to(".intro-block", { scale: 5, opacity: 0, duration: 0.6, ease: "expo.in" }, 2.6);
+    tl.to(introStage, { opacity: 0, duration: 0.2 }, 3.1);
+    
+    tl.set(introStage, { display: 'none' });
+    tl.set(mainSite, { display: 'block' });
+    tl.fromTo(mainSite, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+    tl.fromTo(".glass", { y: 40, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: "power3.out" }, "-=0.3");
+});
+
+let bioOpen = false;
+document.getElementById('bio-toggle').addEventListener('click', function() {
+    bioOpen = !bioOpen;
+    if(bioOpen) {
+        gsap.to("#full-bio", { height: "auto", opacity: 1, duration: 0.4, ease: "power2.out" });
+        this.innerText = "Show Less";
+    } else {
+        gsap.to("#full-bio", { height: 0, opacity: 0, duration: 0.3, ease: "power2.in" });
+        this.innerText = "Expand Bio";
+    }
+});
+
+let archiveOpen = false;
+document.getElementById('archive-toggle').addEventListener('click', function() {
+    archiveOpen = !archiveOpen;
+    if(archiveOpen) {
+        gsap.to("#full-archive", { height: "auto", opacity: 1, duration: 0.4, ease: "power2.out" });
+        document.getElementById('archive-arrow').innerText = "▲";
+    } else {
+        gsap.to("#full-archive", { height: 0, opacity: 0, duration: 0.3, ease: "power2.in" });
+        document.getElementById('archive-arrow').innerText = "▼";
+    }
+});
+
+function loadLyrics(idx) {
+    lyricsBox.innerHTML = '';
+    playlist[idx].lyrics.forEach((l, i) => {
+        const p = document.createElement('p');
+        p.className = 'lyric-line';
+        p.id = `l-${i}`;
+        p.innerText = l.text;
+        lyricsBox.appendChild(p);
+    });
+}
+
+function updateTrack(dir) {
+    const layout = document.querySelector('.player-layout');
+    gsap.to(layout, { x: dir === 'next' ? 20 : -20, opacity: 0, duration: 0.2, onComplete: () => {
+        document.getElementById('track-img').src = playlist[currentTrack].img;
+        document.getElementById('track-title').innerText = playlist[currentTrack].title;
+        document.getElementById('track-artist').innerText = playlist[currentTrack].artist;
+        audio.src = playlist[currentTrack].src;
+        progressBar.value = 0;
+        loadLyrics(currentTrack);
+        try { audio.play(); } catch(e) {}
+        gsap.fromTo(layout, { x: dir === 'next' ? -20 : 20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3 });
+    }});
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => { currentTrack = (currentTrack + 1) % playlist.length; updateTrack('next'); });
+document.getElementById('prevBtn').addEventListener('click', () => { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; updateTrack('prev'); });
+
+audio.addEventListener('timeupdate', () => {
+    if(!audio.duration) return;
+    progressBar.value = (audio.currentTime / audio.duration) * 100;
+    
+    const lines = playlist[currentTrack].lyrics;
+    let activeIdx = -1;
+    for(let i=0; i<lines.length; i++) {
+        if(audio.currentTime >= lines[i].time) activeIdx = i;
+        else break;
+    }
+
+    if(activeIdx !== -1) {
+        const activeEl = document.getElementById(`l-${activeIdx}`);
+        if(activeEl && !activeEl.classList.contains('active')) {
+            document.querySelectorAll('.lyric-line').forEach(el => el.classList.remove('active'));
+            activeEl.classList.add('active');
+            
+            const targetScroll = activeEl.offsetTop - lyricsBox.offsetTop - (lyricsBox.clientHeight / 2) + (activeEl.clientHeight / 2);
+            gsap.to(lyricsBox, {
+                scrollTop: targetScroll,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        }
+    }
+});
+
+progressBar.addEventListener('input', (e) => {
+    if(audio.duration) audio.currentTime = (e.target.value / 100) * audio.duration;
+});
+document.getElementById('volume-slider').addEventListener('input', (e) => audio.volume = e.target.value);
+
+document.addEventListener('mousemove', (e) => {
+    if (mainSite.style.display === 'block') {
+        const x = (e.clientX - window.innerWidth/2) / 70;
+        const y = (e.clientY - window.innerHeight/2) / 70;
+        document.querySelectorAll('.glass').forEach(card => {
+            const d = card.getAttribute('data-depth') || 0.1;
+            gsap.to(card, { x: x * d * 15, y: y * d * 15, duration: 1.5, ease: "power2.out" });
+        });
+    }
+});
