@@ -61,6 +61,49 @@ body { font-family: 'Space Grotesk', sans-serif; background: #000; color: #fff; 
 .project-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(108, 92, 231, 0.15); }
 .project-list span { background: #fff; padding: 6px 14px; border-radius: 10px; font-size: 0.85rem; border: 1px solid rgba(108, 92, 231, 0.2); color: #2d3436; font-weight: 500; }
 
+friend-btn {
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #6c5ce7 !important;
+    padding: 8px 16px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(108, 92, 231, 0.2) !important;
+    transition: all 0.4s ease !important;
+    animation: floatAnim 3s infinite ease-in-out;
+}
+
+.friend-btn:hover {
+    background: rgba(108, 92, 231, 0.1);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.2);
+    border-color: rgba(108, 92, 231, 0.5) !important;
+}
+
+.btn-dot {
+    width: 6px;
+    height: 6px;
+    background: #6c5ce7;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px #6c5ce7;
+    animation: dotPulse 1.5s infinite;
+}
+
+@keyframes floatAnim {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+@keyframes dotPulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
 @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
 
 @media (max-width: 768px) {
@@ -69,4 +112,5 @@ body { font-family: 'Space Grotesk', sans-serif; background: #000; color: #fff; 
     .player-layout { flex-direction: column; }
     .player-left { width: 100%; }
     .player-right { width: 100%; }
+    .friend-btn { font-size: 0.7rem; padding: 5px 10px; }
 }
