@@ -4,6 +4,7 @@ const mainSite = document.getElementById('main-site');
 const audio = document.getElementById('audio');
 const lyricsBox = document.getElementById('lyrics-box');
 const progressBar = document.getElementById('progress-bar');
+const playerCard = document.querySelector('.music-player');
 
 const playlist = [
     { 
@@ -45,80 +46,175 @@ const playlist = [
         src: "2.mp3",
         lyrics: [
             { time: 4.6, text: "Вітер в полі хитає квіти" },
-			{ time: 8.3, text: "Хто ці уйобки, що вчать мене жити?" },
-			{ time: 11.8, text: "Над полем в небі пролітає пташка" },
-			{ time: 15.3, text: "Мені скаже як жити тендітна ромашка" },
-			{ time: 18.8, text: "Ро-ма-шка!" },
-			{ time: 22.5, text: "Ро-ма-шка!" },
-			{ time: 33.1, text: "Розумні люди, все знають люди" },
-			{ time: 36.6, text: "Інтелігенти в курсі, що нам робити" },
-			{ time: 40.2, text: "В завалах копаються тільки дурні" },
-			{ time: 43.7, text: "З рушницями в полі вчорашні діти" },
-			{ time: 47.3, text: "Очі не хочуть, неначе осліплені" },
-			{ time: 50.8, text: "Буває заплакати навіть не вийде" },
-			{ time: 54.4, text: "Дослухайте, якщо вам не буде тяжко" },
-			{ time: 57.9, text: "Бо ви ж так просили — співаю про ромашку" },
-			{ time: 61.4, text: "Вітер в полі хитає квіти" },
-			{ time: 65.0, text: "Хто ці уйобки, що вчать мене жити?" },
-			{ time: 68.5, text: "Над полем в небі пролітає пташка" },
-			{ time: 72.0, text: "Мені скаже як жити тендітна ромашка" },
-			{ time: 75.5, text: "Хто ці люди, що вчать мене жити?" },
-			{ time: 79.1, text: "Що мені заспівати та про що говорити?" },
-			{ time: 82.6, text: "Пачка цигарок, пива півторашка" },
-			{ time: 86.1, text: "Вони всього лиш квіти, тендітні ромашки" },
-			{ time: 89.8, text: "Все ж ми йшли, скільки б не падали" },
-			{ time: 93.2, text: "Хто кричав про вірність, ті перши зрадили" },
-			{ time: 96.8, text: "Половина в дамки, половина в нулі" },
-			{ time: 100.3, text: "Хто грав в сміливих — перші втекли" },
-			{ time: 103.8, text: "Лиш широкий ковток наповнить діафрагму" },
-			{ time: 107.4, text: "Залізні груди" },
-			{ time: 110.9, text: "Як же я ненавиджу людство" },
-			{ time: 114.4, text: "І я так люблю вас люди" },
-			{ time: 118.0, text: "Вже не боюсь і чекаю моменту" },
-			{ time: 121.5, text: "Як стану літнім дощем" },
-			{ time: 125.0, text: "Стану вітром, що зриває шифер" },
-			{ time: 128.6, text: "Або граючим в пічці вогнем" },
-			{ time: 132.1, text: "Всередині нічого не зворушиться" },
-			{ time: 135.6, text: "Від телеекранної драми" },
-			{ time: 139.2, text: "Бо серце моє стало каменем" },
-			{ time: 142.7, text: "Руки мої стали ножами" },
-			{ time: 146.3, text: "Вітер в полі хитає квіти" },
-			{ time: 149.8, text: "Хто ці уйобки, що вчать мене жити?" },
-			{ time: 153.3, text: "Над полем в небі пролітає пташка" },
-			{ time: 156.9, text: "Мені скаже як жити тендітна ромашка" },
-			{ time: 160.4, text: "Хто ці люди, що вчать мене жити?" },
-			{ time: 163.9, text: "Що мені заспівати та про що говорити?" },
-			{ time: 167.4, text: "Пачка цигарок, пива півторашка" },
-			{ time: 171.0, text: "Вони всього лиш квіти, тендітні ромашки" }
+            { time: 8.3, text: "Хто ці уйобки, що вчать мене жити?" },
+            { time: 11.8, text: "Над полем в небі пролітає пташка" },
+            { time: 15.3, text: "Мені скаже як жити тендітна ромашка" },
+            { time: 18.8, text: "Ро-ма-шка!" },
+            { time: 22.5, text: "Ро-ма-шка!" },
+            { time: 33.1, text: "Розумні люди, все знають люди" },
+            { time: 36.6, text: "Інтелігенти в курсі, що нам робити" },
+            { time: 40.2, text: "В завалах копаються тільки дурні" },
+            { time: 43.7, text: "З рушницями в полі вчорашні діти" },
+            { time: 47.3, text: "Очі не хочуть, неначе осліплені" },
+            { time: 50.8, text: "Буває заплакати навіть не вийде" },
+            { time: 54.4, text: "Дослухайте, якщо вам не буде тяжко" },
+            { time: 57.9, text: "Бо ви ж так просили — співаю про ромашку" },
+            { time: 61.4, text: "Вітер в полі хитає квіти" },
+            { time: 65.0, text: "Хто ці уйобки, що вчать мене жити?" },
+            { time: 68.5, text: "Над полем в небі пролітає пташка" },
+            { time: 72.0, text: "Мені скаже як жити тендітна ромашка" },
+            { time: 75.5, text: "Хто ці люди, що вчать мене жити?" },
+            { time: 79.1, text: "Що мені заспівати та про що говорити?" },
+            { time: 82.6, text: "Пачка цигарок, пива півторашка" },
+            { time: 86.1, text: "Вони всього лиш квіти, тендітні ромашки" },
+            { time: 89.8, text: "Все ж ми йшли, скільки б не падали" },
+            { time: 93.2, text: "Хто кричав про вірність, ті перши зрадили" },
+            { time: 96.8, text: "Половина в дамки, половина в нулі" },
+            { time: 100.3, text: "Хто грав в сміливих — перші втекли" },
+            { time: 103.8, text: "Лиш широкий ковток наповнить діафрагму" },
+            { time: 107.4, text: "Залізні груди" },
+            { time: 110.9, text: "Як же я ненавиджу людство" },
+            { time: 114.4, text: "І я так люблю вас люди" },
+            { time: 118.0, text: "Вже не боюсь і чекаю моменту" },
+            { time: 121.5, text: "Як стану літнім дощем" },
+            { time: 125.0, text: "Стану вітром, що зриває шифер" },
+            { time: 128.6, text: "Або граючим в пічці вогнем" },
+            { time: 132.1, text: "Всередині нічого не зворушиться" },
+            { time: 135.6, text: "Від телеекранної драми" },
+            { time: 139.2, text: "Бо серце моє стало каменем" },
+            { time: 142.7, text: "Руки мої стали ножами" },
+            { time: 146.3, text: "Вітер в полі хитає квіти" },
+            { time: 149.8, text: "Хто ці уйобки, що вчать мене жити?" },
+            { time: 153.3, text: "Над полем в небі пролітає пташка" },
+            { time: 156.9, text: "Мені скаже як жити тендітна ромашка" },
+            { time: 160.4, text: "Хто ці люди, що вчать мене жити?" },
+            { time: 163.9, text: "Що мені заспівати та про що говорити?" },
+            { time: 167.4, text: "Пачка цигарок, пива півторашка" },
+            { time: 171.0, text: "Вони всього лиш квіти, тендітні ромашки" }
         ]
     },
     { 
-        title: "темный принц", 
-        artist: "свалка", 
+        title: "свалка", 
+        artist: "темный принц", 
         img: "3.png", 
         src: "3.mp3",
         lyrics: [
             { time: 0, text: "(музыка)" },
-			{ time: 5.3, text: "громкий стук об твою дверь" },
-			{ time: 8.1, text: "и я ломаю руки в кровь" },
-			{ time: 11.6, text: "утром снова в ателье" },
-			{ time: 14.2, text: "мне сшили новое лицо" },
-			{ time: 17.7, text: "смотрю на то как ты спишь" },
-			{ time: 20.5, text: "и видишь самый сладкий сон" },
-			{ time: 23.7, text: "просто оставь меня на мусорной свалке" },
-			{ time: 28.9, text: "мне место среди" },
-			{ time: 32.4, text: "битых машиин" },
-			{ time: 34.7, text: "и, мертвых петель" },
-			{ time: 40.2, text: "вы-бро-шен-ный" },
-			{ time: 43.2, text: "(музыка)" },
-			{ time: 50.1, text: "громкий стук об твою дверь" },
-			{ time: 53.0, text: "и я ломаю руки в кровь" },
-			{ time: 56.4, text: "утром снова в ателье" },
-			{ time: 59.1, text: "мне сшили новое лицо" },
-			{ time: 62.5, text: "смотрю на то как ты спишь" },
-			{ time: 65.3, text: "и видишь самый сладкий сон" },
-			{ time: 68.6, text: "а я спресованный в коробку" },
-			{ time: 71.6, text: "буду вспоминать лицо..." }
+            { time: 5.3, text: "громкий стук об твою дверь" },
+            { time: 8.1, text: "и я ломаю руки в кровь" },
+            { time: 11.6, text: "утром снова в ателье" },
+            { time: 14.2, text: "мне сшили новое лицо" },
+            { time: 17.7, text: "смотрю на то как ты спишь" },
+            { time: 20.5, text: "и видишь самый сладкий сон" },
+            { time: 23.7, text: "просто оставь меня на мусорной свалке" },
+            { time: 28.9, text: "мне место среди" },
+            { time: 32.4, text: "битых машиин" },
+            { time: 34.7, text: "и, мертвых петель" },
+            { time: 40.2, text: "вы-бро-шен-ный" },
+            { time: 43.2, text: "(музыка)" },
+            { time: 50.1, text: "громкий стук об твою дверь" },
+            { time: 53.0, text: "и я ломаю руки в кровь" },
+            { time: 56.4, text: "утром снова в ателье" },
+            { time: 59.1, text: "мне сшили новое лицо" },
+            { time: 62.5, text: "смотрю на то как ты спишь" },
+            { time: 65.3, text: "и видишь самый сладкий сон" },
+            { time: 68.6, text: "а я спресованный в коробку" },
+            { time: 71.6, text: "буду вспоминать лицо..." }
+        ]
+    },
+	{ 
+        title: "распять", 
+        artist: "greyrock, tewiq, madk1d", 
+        img: "4.png", 
+        src: "4.mp3",
+        lyrics: [
+            { time: 0.6, text: "ладони полны слёзок" },
+            { time: 2.5, text: "но время не вернуть вспять" },
+            { time: 5.0, text: "на деревянный крест" },
+            { time: 6.4, text: "можешь распять меня раз пять" },
+            { time: 9.0, text: "я снова своровал твои мысли их не понять" },
+            { time: 13.2, text: "отомсти мне за все" },
+            { time: 14.8, text: "обиды запиши в тетрадь" },
+            { time: 17.3, text: "ладони полны крови будто терся об ножи" },
+            { time: 21.5, text: "на деревянный крест можешь распять" },
+            { time: 24.0, text: "пока я жив" },
+            { time: 25.6, text: "я снова своровал твое сердце будто каджит" },
+			{ time: 29.7, text: "отомсти мне за все" },
+			{ time: 31.3, text: "обиды запиши в дневник" },
+            { time: 33.8, text: "как ты попала в мои строки" },
+            { time: 36.5, text: "в тиктоке огни" },
+            { time: 38.0, text: "ты знаешь, о ком все строки" },
+            { time: 40.3, text: "этот город один" },
+            { time: 42.1, text: "и мы в нем все одиноки" },
+            { time: 44.5, text: "давай возьмем грибы" },
+            { time: 46.2, text: "из магазина эноки" },
+            { time: 48.3, text: "ты знаешь, во мне петарды" },
+            { time: 50.3, text: "ты знаешь, что во мне бомбы" },
+            { time: 52.7, text: "я хотел бы увидеться" },
+			{ time: 54.7, text: "к счастью, связаны руки" },
+			{ time: 56.5, text: "ты знаешь этот майндсет" },
+			{ time: 58.7, text: "ты знаешь все эти звуки" },
+			{ time: 60.7, text: "ты знаешь почему больно" },
+			{ time: 62.7, text: "меня заполонил холод" },
+			{ time: 64.8, text: "в моих руках твое тело" },
+			{ time: 66.8, text: "а значит ладони полны" },
+			{ time: 69.4, text: "ладони полны слёзок" },
+            { time: 71.3, text: "но время не вернуть вспять" },
+            { time: 73.6, text: "на деревянный крест" },
+            { time: 75.2, text: "можешь распять меня раз пять" },
+            { time: 77.7, text: "я снова своровал твои мысли их не понять" },
+            { time: 81.8, text: "отомсти мне за все" },
+            { time: 83.6, text: "обиды запиши в тетрадь" },
+            { time: 86.1, text: "ладони полны крови будто терся об ножи" },
+            { time: 90.2, text: "на деревянный крест можешь распять" },
+            { time: 92.8, text: "пока я жив" },
+            { time: 94.3, text: "я снова своровал твое сердце будто каджит" },
+			{ time: 98.4, text: "отомсти мне за все" },
+			{ time: 101.1, text: "обиды запиши в дневник" }
+        ]
+    },
+	{ 
+        title: "Небо", 
+        artist: "SadSvit", 
+        img: "5.png", 
+        src: "5.mp3",
+        lyrics: [
+            { time: 0, text: "Текст для этой песни еще не готов." }
+        ]
+    },
+	{ 
+        title: "дырки в штанах", 
+        artist: "madk1d", 
+        img: "6.png", 
+        src: "6.mp3",
+        lyrics: [
+            { time: 0.3, text: "я тебя люблю" },
+            { time: 1.5, text: "скажи мне да или нет" },
+            { time: 3.1, text: "зомби в моей комнате" },
+            { time: 4.6, text: "не выключает свет" },
+            { time: 6.1, text: "сколько времени прошло" },
+            { time: 7.7, text: "или сколько лет" },
+            { time: 9.0, text: "(ха-ха, че поверили, бля?)" },
+            { time: 11.4, text: "она знает почему у меня дырки в штанах" },
+            { time: 14.1, text: "она попалась на 'сосала?'" },
+            { time: 15.9, text: "и ответила да!" },
+            { time: 17.1, text: "я так люблю тебя, поверь" },
+            { time: 18.5, text: "но между нами хуйня" },
+            { time: 20.3, text: "и я хз почему, но уже боюсь без тебя" },
+            { time: 23.2, text: "она знает почему у меня дырки в штанах" },
+            { time: 26.0, text: "она попалась на 'сосала?'" },
+            { time: 27.7, text: "и ответила да!" },
+            { time: 29.0, text: "я так люблю тебя, поверь" },
+            { time: 30.5, text: "но между нами хуйня" },
+            { time: 32.0, text: "и я хз почему, но уже боюсь без тебя" },
+            { time: 35.1, text: "и я знаю то что раньше изменяла парням" },
+            { time: 37.9, text: "твой топер дохуище выше" },
+            { time: 39.5, text: "измеряла по дням" },
+            { time: 40.8, text: "ты выглядишь так ахуительно" },
+            { time: 42.7, text: "примерно на лям" },
+            { time: 43.8, text: "мой бро везет все это в жопе" },
+            { time: 45.5, text: "если не могу сам" },
+            { time: 71.6, text: "буду вспоминать лицо..." }
         ]
     }
 ];
@@ -140,8 +236,7 @@ trigger.addEventListener('click', () => {
     for(let i=0; i<45; i++) {
         const b = document.createElement('div');
         b.className = 'intro-block';
-        let size = Math.random() * 100 + 40;
-        Object.assign(b.style, { width: size+'px', height: size+'px', left: Math.random()*100+'%', top: Math.random()*100+'%', opacity: 0 });
+        Object.assign(b.style, { width: Math.random()*100+40+'px', height: Math.random()*100+40+'px', left: Math.random()*100+'%', top: Math.random()*100+'%', opacity: 0 });
         container.appendChild(b);
     }
 
@@ -202,13 +297,31 @@ function updateTrack(dir) {
         audio.src = playlist[currentTrack].src;
         progressBar.value = 0;
         loadLyrics(currentTrack);
+        
+        if(iconPlay && iconPause) {
+            iconPlay.style.display = 'none';
+            iconPause.style.display = 'block';
+        }
+        
         try { audio.play(); } catch(e) {}
         gsap.fromTo(layout, { x: dir === 'next' ? -20 : 20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3 });
     }});
 }
 
-document.getElementById('nextBtn').addEventListener('click', () => { currentTrack = (currentTrack + 1) % playlist.length; updateTrack('next'); });
-document.getElementById('prevBtn').addEventListener('click', () => { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; updateTrack('prev'); });
+document.getElementById('nextBtn').addEventListener('click', () => { 
+    currentTrack = (currentTrack + 1) % playlist.length; 
+    updateTrack('next'); 
+});
+
+document.getElementById('prevBtn').addEventListener('click', () => { 
+    currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; 
+    updateTrack('prev'); 
+});
+
+audio.addEventListener('ended', () => {
+    currentTrack = (currentTrack + 1) % playlist.length;
+    updateTrack('next');
+});
 
 audio.addEventListener('timeupdate', () => {
     if(!audio.duration) return;
@@ -228,11 +341,7 @@ audio.addEventListener('timeupdate', () => {
             activeEl.classList.add('active');
             
             const targetScroll = activeEl.offsetTop - lyricsBox.offsetTop - (lyricsBox.clientHeight / 2) + (activeEl.clientHeight / 2);
-            gsap.to(lyricsBox, {
-                scrollTop: targetScroll,
-                duration: 0.8,
-                ease: "power2.out"
-            });
+            gsap.to(lyricsBox, { scrollTop: targetScroll, duration: 0.8, ease: "power2.out" });
         }
     }
 });
@@ -242,8 +351,69 @@ progressBar.addEventListener('input', (e) => {
 });
 document.getElementById('volume-slider').addEventListener('input', (e) => audio.volume = e.target.value);
 
+
+const playPauseBtn = document.getElementById('play-pause-btn');
+const iconPlay = document.getElementById('icon-play');
+const iconPause = document.getElementById('icon-pause');
+
+if (playPauseBtn) {
+    playPauseBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        if (audio.paused) audio.play();
+        else audio.pause();
+    });
+
+    audio.addEventListener('play', () => {
+        if(iconPlay && iconPause) {
+            iconPlay.style.display = 'none';
+            iconPause.style.display = 'block';
+        }
+    });
+    audio.addEventListener('pause', () => {
+        if(iconPlay && iconPause) {
+            iconPlay.style.display = 'block';
+            iconPause.style.display = 'none';
+        }
+    });
+}
+
+const fullscreenBtn = document.getElementById('fullscreen-btn');
+const exitFsBtn = document.getElementById('exit-fs-btn');
+
+function toggleFullscreen(e) {
+    if(e) e.stopPropagation();
+    
+    const isFs = document.body.classList.contains('fs-active');
+    
+    if (!isFs) {
+        document.body.classList.add('fs-active');
+        playerCard.classList.add('fs-mode');
+        if(exitFsBtn) exitFsBtn.style.display = 'block';
+    } else {
+        document.body.classList.remove('fs-active');
+        playerCard.classList.remove('fs-mode');
+        if(exitFsBtn) exitFsBtn.style.display = 'none';
+        
+        setTimeout(() => {
+            const y = playerCard.getBoundingClientRect().top + window.scrollY - 100;
+            window.scrollTo({top: y, behavior: 'smooth'});
+        }, 600);
+    }
+    
+    setTimeout(() => {
+        const activeEl = document.querySelector('.lyric-line.active');
+        if(activeEl) {
+            const targetScroll = activeEl.offsetTop - lyricsBox.offsetTop - (lyricsBox.clientHeight / 2) + (activeEl.clientHeight / 2);
+            lyricsBox.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        }
+    }, 650);
+}
+
+if (fullscreenBtn) fullscreenBtn.addEventListener('click', toggleFullscreen);
+if (exitFsBtn) exitFsBtn.addEventListener('click', toggleFullscreen);
+
 document.addEventListener('mousemove', (e) => {
-    if (mainSite.style.display === 'block') {
+    if (mainSite.style.display === 'block' && !document.body.classList.contains('fs-active')) {
         const x = (e.clientX - window.innerWidth/2) / 70;
         const y = (e.clientY - window.innerHeight/2) / 70;
         document.querySelectorAll('.glass').forEach(card => {
