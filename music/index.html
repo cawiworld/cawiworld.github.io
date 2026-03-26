@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaWiWorld Music</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(err => console.log(err));
+      }
+    </script>
+</head>
+<body>
+
+    <div id="intro-bg"></div>
+    <div id="flying-logo" class="logo-wrapper">
+        <h1 id="logo-text">CaWiWorld</h1>
+        <div id="music-badge">Music</div>
+    </div>
+
+    <button id="settings-btn" class="nav-btn top-right-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+    </button>
+
+    <div id="settings-modal" class="settings-overlay" style="display:none;">
+        <div class="settings-panel pv-panel">
+            <h3>Settings</h3>
+            <div class="setting-item">
+                <span>App Theme</span>
+                <button id="theme-toggle-btn" class="glass-btn">Switch to Light Mode</button>
+            </div>
+			
+			<div class="setting-item">
+                <span>Kids Mode (Safe Lyrics)</span>
+                <button id="kids-mode-btn" class="glass-btn">Turn On</button>
+            </div>
+            <button id="close-settings-btn" class="glass-btn" style="margin-top: 30px; width: 100%; justify-content: center; background: #6c5ce7; border-color: #6c5ce7;">Close</button>
+        </div>
+    </div>
+
+    <div id="main-app">
+        <div class="welcome-section">
+            <h2 class="welcome-title">Welcome to CaWiWorld Music</h2>
+            <p class="version-badge">Version: v1.5beta</p>
+        </div>
+
+        <section class="playlist-section">
+            <div class="section-header">
+                <h3>Reloster's Top Picks</h3>
+                <div class="carousel-controls">
+                    <button id="scroll-left-1" class="nav-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg></button>
+                    <button id="scroll-right-1" class="nav-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></button>
+                </div>
+            </div>
+            <div class="carousel-container" id="carousel-picks"></div>
+        </section>
+
+        <section class="playlist-section">
+            <div class="section-header">
+                <h3>Last Added</h3>
+                <div class="carousel-controls">
+                    <button id="scroll-left-2" class="nav-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg></button>
+                    <button id="scroll-right-2" class="nav-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></button>
+                </div>
+            </div>
+            <div class="carousel-container" id="carousel-latest"></div>
+        </section>
+
+        <div class="footer-cta">
+            <p class="cta-main">Want more? <a href="https://t.me/cawimusic" target="_blank" class="glow-link">Check TGC</a>.</p>
+            <p class="cta-sub">You can help me with development or suggest new songs.</p>
+        </div>
+    </div>
+
+    <div id="player-view" style="display: none;">
+        <div class="player-centered-wrap">
+            <div class="pv-header">
+                <button id="back-btn" class="glass-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg> Back
+                </button>
+            </div>
+            
+            <div class="pv-layout" id="pv-content-area">
+                <div class="pv-left">
+                    <img id="pv-cover" src="" alt="Cover">
+                    <h2 id="pv-title">Title</h2>
+                    <p id="pv-artist">Artist</p>
+                </div>
+                
+                <div class="pv-right">
+                    <div class="pv-info-row">
+                        <div id="pv-info" class="pv-panel">
+                            <h3>Track Info</h3>
+                            <div class="info-grid">
+                                <div class="info-item"><span>Album:</span> <strong id="pv-album"></strong></div>
+                                <div class="info-item"><span>Release:</span> <strong id="pv-date"></strong></div>
+                                <div class="info-item"><span>Artist:</span> <strong id="pv-artist-info"></strong></div>
+                            </div>
+                        </div>
+
+                        <div id="pv-next-track" class="pv-panel pv-panel-next">
+                            <img id="pv-next-cover" src="" alt="Cover">
+                            <div>
+                                <p class="version-badge">NEXT TRACK</p>
+                                <h4 id="pv-next-title">Next Title</h4>
+                                <p id="pv-next-artist">Next Artist</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="pv-lyrics-panel" class="pv-panel">
+                        <div id="pv-lyrics-box"></div>
+                        
+                        <div id="pv-text-author" class="text-author-info" style="display: none;"></div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="pv-controls-bar">
+                <div class="seeker-container">
+                    <span id="pv-current-time" class="seeker-time">00:00</span>
+                    <input type="range" id="pv-seeker" class="seeker-slider" min="0" value="0" step="0.1">
+                    <span id="pv-duration" class="seeker-time">00:00</span>
+                </div>
+                <div class="nav-controls-container">
+                    <button id="pv-prevBtn" class="nav-btn-big"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
+                    <button id="pv-play-pause-btn" class="nav-btn-big pv-play-btn">
+                        <svg id="pv-icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="pv-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                    <button id="pv-nextBtn" class="nav-btn-big"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mini-player" class="mini-player">
+        <div class="mp-left">
+            <img id="mp-cover" src="" alt="Cover">
+            <div class="mp-info">
+                <h4 id="mp-title">Title</h4>
+                <p id="mp-artist">Artist</p>
+            </div>
+        </div>
+        
+        <div class="mp-center">
+            <span id="mp-current-time" class="seeker-time">00:00</span>
+            <input type="range" id="mp-seeker" class="seeker-slider" min="0" value="0" step="0.1">
+            <span id="mp-duration" class="seeker-time">00:00</span>
+        </div>
+        
+        <div class="mp-right">
+            <button id="mp-prevBtn" class="nav-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
+            <button id="mp-play-pause-btn" class="nav-btn mp-play-btn">
+                <svg id="mp-icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="mp-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <button id="mp-nextBtn" class="nav-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+            <button id="mp-expand-btn" class="nav-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+        </div>
+    </div>
+
+    <audio id="main-audio"></audio>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
