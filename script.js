@@ -378,27 +378,26 @@ if (playPauseBtn) {
 }
 
 const fullscreenBtn = document.getElementById('fullscreen-btn');
-const exitFsBtn = document.getElementById('exit-fs-btn');
+const musicModal = document.getElementById('music-modal');
+const modalCancel = document.getElementById('modal-cancel');
+const modalConfirm = document.getElementById('modal-confirm');
 
-function toggleFullscreen(e) {
-    if(e) e.stopPropagation();
-    
-    const isFs = document.body.classList.contains('fs-active');
-    
-    if (!isFs) {
-        document.body.classList.add('fs-active');
-        playerCard.classList.add('fs-mode');
-        if(exitFsBtn) exitFsBtn.style.display = 'block';
-    } else {
-        document.body.classList.remove('fs-active');
-        playerCard.classList.remove('fs-mode');
-        if(exitFsBtn) exitFsBtn.style.display = 'none';
-        
-        setTimeout(() => {
-            const y = playerCard.getBoundingClientRect().top + window.scrollY - 100;
-            window.scrollTo({top: y, behavior: 'smooth'});
-        }, 600);
-    }
+if (fullscreenBtn) {
+    fullscreenBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        musicModal.style.display = 'flex';
+        gsap.to(musicModal, { opacity: 1, duration: 0.3 });
+    });
+}
+
+modalCancel.addEventListener('click', () => {
+    gsap.to(musicModal, { opacity: 0, duration: 0.3, onComplete: () => musicModal.style.display = 'none' });
+});
+
+modalConfirm.addEventListener('click', () => {
+    // Перебрасываем пользователя на новую страницу
+    window.location.href = "https://cawiworld.github.io/music";
+});
     
     setTimeout(() => {
         const activeEl = document.querySelector('.lyric-line.active');
