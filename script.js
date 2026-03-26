@@ -298,6 +298,8 @@ function updateTrack(dir) {
         progressBar.value = 0;
         loadLyrics(currentTrack);
         
+        const iconPlay = document.getElementById('icon-play');
+        const iconPause = document.getElementById('icon-pause');
         if(iconPlay && iconPause) {
             iconPlay.style.display = 'none';
             iconPause.style.display = 'block';
@@ -382,7 +384,7 @@ const musicModal = document.getElementById('music-modal');
 const modalCancel = document.getElementById('modal-cancel');
 const modalConfirm = document.getElementById('modal-confirm');
 
-if (fullscreenBtn) {
+if (fullscreenBtn && musicModal) {
     fullscreenBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         musicModal.style.display = 'flex';
@@ -390,29 +392,20 @@ if (fullscreenBtn) {
     });
 }
 
-modalCancel.addEventListener('click', () => {
-    gsap.to(musicModal, { opacity: 0, duration: 0.3, onComplete: () => musicModal.style.display = 'none' });
-});
-
-modalConfirm.addEventListener('click', () => {
-    // Перебрасываем пользователя на новую страницу
-    window.location.href = "https://cawiworld.github.io/music";
-});
-    
-    setTimeout(() => {
-        const activeEl = document.querySelector('.lyric-line.active');
-        if(activeEl) {
-            const targetScroll = activeEl.offsetTop - lyricsBox.offsetTop - (lyricsBox.clientHeight / 2) + (activeEl.clientHeight / 2);
-            lyricsBox.scrollTo({ top: targetScroll, behavior: 'smooth' });
-        }
-    }, 650);
+if (modalCancel) {
+    modalCancel.addEventListener('click', () => {
+        gsap.to(musicModal, { opacity: 0, duration: 0.3, onComplete: () => musicModal.style.display = 'none' });
+    });
 }
 
-if (fullscreenBtn) fullscreenBtn.addEventListener('click', toggleFullscreen);
-if (exitFsBtn) exitFsBtn.addEventListener('click', toggleFullscreen);
+if (modalConfirm) {
+    modalConfirm.addEventListener('click', () => {
+        window.location.href = "https://cawiworld.github.io/music";
+    });
+}
 
 document.addEventListener('mousemove', (e) => {
-    if (mainSite.style.display === 'block' && !document.body.classList.contains('fs-active')) {
+    if (mainSite.style.display === 'block') {
         const x = (e.clientX - window.innerWidth/2) / 70;
         const y = (e.clientY - window.innerHeight/2) / 70;
         document.querySelectorAll('.glass').forEach(card => {
