@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About & Copyright - CaWiWorld Music</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        .about-container { max-width: 800px; margin: 100px auto 50px; padding: 40px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; box-shadow: inset 0 0 20px rgba(255,255,255,0.01); }
+        .about-container h2 { font-size: 2.5rem; margin-bottom: 20px; background: linear-gradient(45deg, #6c5ce7, #a29bfe, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .about-container h3 { font-size: 1.5rem; color: #a29bfe; margin: 30px 0 15px; }
+        .about-container p { font-size: 1.1rem; line-height: 1.6; color: #b2bec3; margin-bottom: 15px; }
+        .about-container ul { margin-left: 20px; margin-bottom: 20px; color: #b2bec3; font-size: 1.1rem; line-height: 1.6; }
+        .about-container li { margin-bottom: 10px; }
+        .light-theme .about-container { background: #fff; border-color: #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .light-theme .about-container p, .light-theme .about-container ul { color: #636e72; }
+    </style>
+</head>
+<body class="">
+
+    <div style="position: absolute; top: 40px; left: 40px; z-index: 100;">
+        <a href="index.html" style="text-decoration: none;">
+            <button class="glass-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg> Back to Home
+            </button>
+        </a>
+    </div>
+
+    <div class="about-container">
+        <h2>О проекте и Авторам (Copyright)</h2>
+        
+        <p><strong>CaWiWorld Music</strong> — это независимый, некоммерческий проект, созданный для объединения любителей музыки, инди-артистов и нашего комьюнити.</p>
+        <p>Мы искренне любим музыку, которую размещаем, и создаем этот плеер из уважения к творчеству авторов.</p>
+
+        <h3>1. Монетизация и продажи</h3>
+        <p>Мы <strong>не продаем</strong> чужие треки, не требуем плату за прослушивание и не пытаемся заработать на чужом творчестве. Наша платформа абсолютно бесплатна для пользователей. Если в будущем проект начнет приносить доход (например, через добровольные пожертвования пользователей), мы готовы обсуждать распределение процента прибыли с авторами треков, которые поддерживают наше сообщество.</p>
+
+        <h3>2. Авторские права (DMCA & Takedown)</h3>
+        <p>Мы уважаем интеллектуальную собственность. Если вы являетесь автором трека, текста или обложки, и <strong>не хотите</strong>, чтобы ваше творчество было представлено на нашей платформе, вам не нужно кидать страйки или обращаться к юристам. Просто напишите нам!</p>
+        
+        <ul>
+            <li>Свяжитесь с нами напрямую: <a href="https://t.me/diaenwj777" target="_blank" class="glow-link">Telegram (@diaenwj777)</a></li>
+            <li>Предоставьте любое подтверждение, что вы являетесь автором (ссылка на ваш паблик, дистрибьютора и т.д.).</li>
+            <li>Мы удалим ваш контент в течение <strong>24 часов</strong> без лишних вопросов.</li>
+        </ul>
+
+        <h3>3. Хотите добавить свой трек?</h3>
+        <p>Если вы инди-музыкант и хотите, чтобы ваш трек появился у нас с крутым караоке — смело пишите в DM! Мы всегда рады поддержать талантливых ребят и добавить вас в нашу библиотеку (с указанием всех ссылок на ваши соцсети).</p>
+
+        <div style="margin-top: 50px; text-align: center;">
+            <p style="font-size: 0.9rem; color: #636e72;">CaWiWorld Music © 2026</p>
+        </div>
+    </div>
+
+    <script>
+        if (localStorage.getItem('cawi-theme') === 'light') {
+            document.body.classList.add('light-theme');
+        }
+    </script>
+</body>
+</html>
