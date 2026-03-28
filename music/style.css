@@ -196,6 +196,65 @@ body.light-theme { background: #f0f2f5; color: #1e1e24; }
     transition: opacity 0.4s;
 }
 
+/* --- ARTIST PROFILE --- */
+.artist-overlay { position: fixed; inset: 0; background: #050507; z-index: 200; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; }
+.ap-header { margin-bottom: 20px; }
+.ap-content { max-width: 900px; margin: 0 auto; width: 100%; }
+
+.ap-hero { display: flex; align-items: center; gap: 40px; padding: 40px; margin-bottom: 30px; background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(0,0,0,0.4)); border: 1px solid rgba(108, 92, 231, 0.2); }
+#ap-avatar { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 4px solid #6c5ce7; box-shadow: 0 10px 30px rgba(108, 92, 231, 0.4); }
+#ap-name { font-size: 3.5rem; display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
+.verified-badge { background: #6c5ce7; color: white; font-size: 1rem; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 0 10px #6c5ce7; }
+
+.ap-list { display: flex; flex-direction: column; gap: 12px; }
+.ap-song-item { display: flex; align-items: center; gap: 20px; background: rgba(255,255,255,0.03); padding: 15px 25px; border-radius: 12px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+.ap-song-item:hover { background: rgba(108, 92, 231, 0.15); border-color: rgba(108, 92, 231, 0.4); transform: translateX(10px); }
+.ap-song-item img { width: 50px; height: 50px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+.ap-song-item h4 { flex-grow: 1; font-size: 1.2rem; }
+
+.light-theme .artist-overlay { background: #f0f2f5; }
+.light-theme .ap-hero { background: #fff; border-color: #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.light-theme .ap-song-item { background: #fff; border-color: #ddd; color: #2d3436; }
+.light-theme .ap-song-item:hover { background: #f8f9fa; border-color: #6c5ce7; }
+
+.artist-link {
+    cursor: pointer;
+    transition: 0.2s color;
+}
+.artist-link:hover {
+    color: #a29bfe;
+    text-decoration: underline;
+}
+
+.modern-shuffle {
+    background: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+}
+.modern-shuffle:hover {
+    background: #a29bfe;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(108, 92, 231, 0.5);
+}
+
+.verified-svg {
+    width: 22px;
+    height: 22px;
+    color: #6c5ce7;
+    margin-left: 10px;
+    filter: drop-shadow(0 0 5px #6c5ce7);
+}
+
 @media (max-width: 768px) {
     #main-app { padding: 120px 20px 100px; }
     #player-view { padding: 20px; height: 100%; overflow-y: auto; }

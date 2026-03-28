@@ -29,6 +29,11 @@ if (localStorage.getItem('cawi-theme') === 'light') {
     if (themeBtn) themeBtn.innerText = "Switch to Dark Mode";
 }
 
+function getArtistLinksHTML(artistStr) {
+    if (!artistStr) return '';
+    return artistStr.split(',').map(a => `<span class="artist-link">${a.trim()}</span>`).join(', ');
+}
+
 if (themeBtn) {
     themeBtn.addEventListener('click', () => {
         body.classList.toggle('light-theme');
@@ -92,7 +97,10 @@ function renderCards(container, songsArray) {
             <h4>${song.title} ${explicitHtml}</h4>
             <p>${song.artist}</p>
         `;
-        card.addEventListener('click', () => openPlayerView(song));
+        card.addEventListener('click', (e) => {
+			if (e.target.classList.contains('artist-link')) return; 
+			openPlayerView(song);
+		});
         container.appendChild(card);
     });
 }
@@ -162,7 +170,7 @@ function openPlayerView(song) {
         document.getElementById('pv-cover').src = song.cover;
         const explicitHtml = song.explicit ? '<span class="explicit-badge">E</span>' : '';
         document.getElementById('pv-title').innerHTML = song.title + explicitHtml;
-        document.getElementById('pv-artist').innerText = song.artist;
+        document.getElementById('pv-artist').innerHTML = getArtistLinksHTML(song.artist);
         
         const pvAlbum = document.getElementById('pv-album');
         if(pvAlbum) pvAlbum.innerText = song.album || "Unknown Album";
@@ -181,7 +189,7 @@ function openPlayerView(song) {
 
         document.getElementById('mp-cover').src = song.cover;
         document.getElementById('mp-title').innerHTML = song.title + explicitHtml;
-        document.getElementById('mp-artist').innerText = song.artist;
+        document.getElementById('mp-artist').innerHTML = getArtistLinksHTML(song.artist);
 
         const textAuthorEl = document.getElementById('pv-text-author');
         if (textAuthorEl) {
@@ -367,6 +375,97 @@ function initVisualizer() {
     if (audioContext.state === 'suspended') audioContext.resume();
     drawVisualizer();
 }
+
+const artistProfileView = document.getElementById('artist-profile-view');
+const apBackBtn = document.getElementById('ap-back-btn');
+let currentArtistSongs = [];
+
+const verifiedSvgCode = `
+    <svg viewBox="0 0 24 24" class="verified-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>`;
+
+function openArtistProfile(artistName) {
+    currentArtistSongs = songsData.filter(s => {
+        const artistsArray = s.artist.split(',').map(a => a.trim());
+        return artistsArray.includes(artistName);
+    });
+    
+    if (currentArtistSongs.length === 0) return;
+
+    const nameEl = document.getElementById('ap-name');
+    if (nameEl) {
+        nameEl.innerHTML = `${artistName} <span id="ap-verified-holder">${verifiedSvgCode}</span>`;
+    }
+
+    const avatarEl = document.getElementById('ap-avatar');
+    if (avatarEl) avatarEl.src = currentArtistSongs[currentArtistSongs.length - 1].cover;
+    
+    const statsEl = document.getElementById('ap-stats');
+    if (statsEl) statsEl.innerText = `${currentArtistSongs.length} Track${currentArtistSongs.length > 1 ? 's' : ''}`;
+    
+    const bioEl = document.getElementById('ap-bio');
+    if (bioEl) {
+        bioEl.innerText = currentArtistSongs.length === 1 
+            ? `Fresh artist on CaWiWorld. Check out their only track.` 
+            : `Talented artist with ${currentArtistSongs.length} popular tracks in our library. Explore their discography below.`;
+    }
+
+    const tracklistContainer = document.getElementById('ap-tracklist');
+    if (tracklistContainer) {
+        tracklistContainer.innerHTML = '';
+        currentArtistSongs.forEach((song, index) => {
+            const item = document.createElement('div');
+            item.className = 'ap-song-item';
+            const explicitTag = song.explicit ? '<span class="explicit-badge">E</span>' : '';
+            item.innerHTML = `
+                <span style="color: #b2bec3; font-weight: bold; width: 25px; font-size: 0.9rem;">${index + 1}</span>
+                <img src="${song.cover}" alt="Cover">
+                <h4>${song.title} ${explicitTag}</h4>
+                <div style="color: #6c5ce7; width:24px; height:24px;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            `;
+            item.addEventListener('click', () => {
+                closeArtistProfile();
+                openPlayerView(song);
+            });
+            tracklistContainer.appendChild(item);
+        });
+    }
+
+    artistProfileView.style.display = 'flex';
+    gsap.fromTo(artistProfileView, 
+        { y: "100%", opacity: 0 }, 
+        { y: "0%", opacity: 1, duration: 0.6, ease: "expo.out" }
+    );
+}
+
+function closeArtistProfile() {
+    gsap.to(artistProfileView, { 
+        y: "100%", opacity: 0, duration: 0.4, ease: "power2.in", 
+        onComplete: () => artistProfileView.style.display = 'none' 
+    });
+}
+
+if (apBackBtn) apBackBtn.addEventListener('click', closeArtistProfile);
+
+const shuffleBtn = document.getElementById('ap-shuffle-btn');
+if (shuffleBtn) {
+    shuffleBtn.addEventListener('click', () => {
+        if (currentArtistSongs.length > 0) {
+            const randomTrack = currentArtistSongs[Math.floor(Math.random() * currentArtistSongs.length)];
+            closeArtistProfile();
+            openPlayerView(randomTrack);
+        }
+    });
+}
+
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('artist-link')) {
+        const artistName = e.target.innerText;
+        openArtistProfile(artistName);
+    }
+});
 
 function drawVisualizer() {
     if (!isVizEnabled || audio.paused) return;

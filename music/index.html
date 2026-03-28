@@ -175,6 +175,38 @@
             <button id="mp-expand-btn" class="nav-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
         </div>
     </div>
+	
+<div id="artist-profile-view" class="artist-overlay" style="display: none;">
+        <div class="ap-header">
+            <button id="ap-back-btn" class="glass-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg> 
+                Back
+            </button>
+        </div>
+        
+        <div class="ap-content">
+            <div class="ap-hero pv-panel">
+                <img id="ap-avatar" src="" alt="Artist Avatar">
+                <div class="ap-info">
+                    <h2 id="ap-name" style="display: flex; align-items: center;">Artist Name 
+                        <span id="ap-verified-holder"></span>
+                    </h2>
+                    <p id="ap-stats" style="color: #b2bec3; margin-bottom: 5px;">0 Tracks</p>
+                    <p id="ap-bio" style="color: #b2bec3; font-size: 0.9rem; font-weight: 300; margin-bottom: 20px;">
+                        No description available.
+                    </p>
+                    <button id="ap-shuffle-btn" class="modern-shuffle">
+                        🔀 Shuffle Play
+                    </button>
+                </div>
+            </div>
+
+            <div class="ap-tracklist-section">
+                <h3 style="margin-bottom: 15px; color: #a29bfe;">Popular Tracks</h3>
+                <div id="ap-tracklist" class="ap-list"></div>
+            </div>
+        </div>
+    </div>
 
     <audio id="main-audio"></audio>
 
