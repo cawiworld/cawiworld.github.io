@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaWiWorld | WOW</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="loading">
+	<div id="cursor"></div>
+	<div id="cursor-follower"></div>
+
+    <div id="preloader">
+        <div class="preloader-content">
+            <h1 class="loader-logo">
+                <span class="brand">CaWiWorld</span>
+                <span class="badge">WOW!</span>
+            </h1>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <main id="ui-layer">
+        <header class="glass-header">
+            <div class="logo-mini">WOW</div>
+            <nav>
+                <a href="https://cawiworld.github.io">My bio</a>
+                <a href="https://cawiworld.github.io/other">My portfolio</a>
+            </nav>
+        </header>
+
+        <div id="scroll-content">
+            <section class="cinematic-block">
+                <div class="text-content left">
+                    <p class="subtitle">/// Добро пожаловать!</p>
+                    <h2>CaWiWorld WOW</h2>
+                    <p>Проект для моего портфолио. Html/css/js код только. Реальное 3D с анимациями.</p>
+                </div>
+            </section>
+            
+            <section class="cinematic-block">
+                <div class="text-content right">
+                    <p class="subtitle">/// Анализ ядра</p>
+                    <h2>КРИСТАЛЛИЗАЦИЯ</h2>
+                    <p>Камера летит сквозь сцену, реагируя на скролл. Осколки подчиняются физике, создавая эффект параллакса.</p>
+                </div>
+            </section>
+
+            <section class="cinematic-block">
+                <div class="text-content center">
+                    <p class="subtitle">/// Информация 100%</p>
+                    <h2>НЕДОРОГОЙ КОДЕР</h2>
+					<a href="https://t.me/relosterpc" style="text-decoration: none;">
+						<button class="cyber-btn">DM RELOSTER</button>
+					</a>
+                </div>
+            </section>
+        </div>
+    </main>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    
+    <script src="script.js"></script>
+
+    </body>
+</html>
