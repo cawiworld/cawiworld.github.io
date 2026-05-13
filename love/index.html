@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Protocol Love</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;700;900&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #111111;
+    color: #e5e5e5;
+    font-family: 'Fira Code', monospace;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.accent { color: #ff2a55; }
+.success { color: #4ade80; }
+
+#terminal {
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    z-index: 20;
+    transition: opacity 0.3s ease;
+}
+
+.line {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0;
+    display: none;
+    margin-bottom: 5px;
+}
+
+#btn-wrap {
+    margin-top: 25px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#decrypt-btn {
+    background-color: #ff2a55;
+    color: #ffffff;
+    border: none;
+    padding: 12px 28px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 0 15px rgba(255, 42, 85, 0.4);
+    transition: all 0.2s;
+    outline: none;
+}
+
+#decrypt-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px rgba(255, 42, 85, 0.4);
+}
+
+.hint {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 10px;
+}
+
+#heart-stage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    z-index: 5;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.love-word {
+    position: absolute;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 11px;
+    color: #ff1a43;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+    text-shadow: 0 0 5px rgba(255, 26, 67, 0.8);
+    white-space: nowrap;
+    will-change: transform, opacity;
+}
+
+.core-word {
+    color: #ffffff;
+    font-size: 12px;
+    text-shadow: 0 0 10px #ff2a55, 0 0 20px #ff2a55, 0 0 30px #ffffff;
+    z-index: 10;
+}
+
+@keyframes popIn {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+    70% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+#modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%) scale(0.9);
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 42, 85, 0.3);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 42, 85, 0.1);
+    z-index: 50;
+    width: 85%;
+    max-width: 320px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#modal.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.15rem;
+    color: #fff;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.modal-text span {
+    color: #ff2a55;
+    font-weight: 700;
+}
+
+.modal-btn {
+    background: #fff;
+    color: #111;
+    border: none;
+    padding: 10px 30px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.modal-btn:active {
+    transform: scale(0.9);
+}
+
+#roma-msg {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: #555;
+    opacity: 0;
+    z-index: 10;
+    transition: opacity 1s ease;
+    pointer-events: none;
+}
+
+@media (min-width: 768px) {
+    .line { font-size: 1.1rem; }
+    .love-word { font-size: 13px; }
+    .core-word { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div id="terminal">
+    <div class="line" id="l1"><span class="accent">[system]</span> Initializing heart.PROTOCOL_v2.0...</div>
+    <div class="line" id="l2"><span class="accent">[bytes]</span> <span class="success">READY.</span></div>
+    <div class="line" id="l3">&gt; One encrypted package found for you.</div>
+    <div id="btn-wrap">
+        <button id="decrypt-btn">
+            <i id="lock-icon" class="fas fa-lock"></i> DECRYPT MESSAGE
+        </button>
+        <div class="hint">(or just click anywhere)</div>
+    </div>
+</div>
+
+<div id="heart-stage"></div>
+
+<div id="modal">
+    <div class="modal-text">
+        I love you <span>very much</span>.<br>
+        You are <span>the best</span>.
+    </div>
+    <button class="modal-btn" onclick="closeAlert()">OK</button>
+</div>
+
+<div id="roma-msg">от твоего ромы :)</div>
+
+<script>
+const terminal = document.getElementById('terminal');
+const lines = [document.getElementById('l1'), document.getElementById('l2'), document.getElementById('l3')];
+const btnWrap = document.getElementById('btn-wrap');
+const btn = document.getElementById('decrypt-btn');
+const heartStage = document.getElementById('heart-stage');
+const modal = document.getElementById('modal');
+const romaMsg = document.getElementById('roma-msg');
+const lockIcon = document.getElementById('lock-icon');
+
+const typeText = (el, text, speed) => {
+    el.style.display = 'block';
+    el.innerHTML = '';
+    let i = 0;
+    let isTag = false;
+    let currentHtml = '';
+    
+    return new Promise(resolve => {
+        const type = () => {
+            if (i < text.length) {
+                if (text.charAt(i) === '<') isTag = true;
+                currentHtml += text.charAt(i);
+                if (text.charAt(i) === '>') isTag = false;
+                
+                el.innerHTML = currentHtml;
+                i++;
+                if (isTag) {
+                    type();
+                } else {
+                    setTimeout(type, speed);
+                }
+            } else {
+                resolve();
+            }
+        };
+        type();
+    });
+};
+
+const initTerminal = async () => {
+    lines.forEach(l => l.style.opacity = '1');
+    await typeText(lines[0], lines[0].innerHTML, 10);
+    await new Promise(r => setTimeout(r, 50));
+    await typeText(lines[1], lines[1].innerHTML, 10);
+    await new Promise(r => setTimeout(r, 50));
+    await typeText(lines[2], lines[2].innerHTML, 10);
+    
+    btnWrap.style.display = 'flex';
+    setTimeout(() => {
+        btnWrap.style.opacity = '1';
+        btnWrap.style.transform = 'translateY(0)';
+    }, 20);
+};
+
+window.onload = initTerminal;
+
+const unlock = () => {
+    lockIcon.className = 'fas fa-unlock';
+    terminal.style.opacity = '0';
+    setTimeout(() => {
+        terminal.style.display = 'none';
+        heartStage.style.opacity = '1';
+        buildHeart();
+    }, 300);
+};
+
+btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    unlock();
+});
+document.addEventListener('click', (e) => {
+    if (btnWrap.style.opacity === '1' && terminal.style.opacity !== '0') unlock();
+});
+
+const buildHeart = () => {
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? 250 : 350;
+    const scale = isMobile ? 11 : 16;
+    const cX = window.innerWidth / 2;
+    const cY = window.innerHeight / 2 - 20;
+
+    let delay = 0;
+
+    for (let i = 0; i < count; i++) {
+        let t = Math.random() * Math.PI * 2;
+        let r;
+        let isCore = false;
+
+        if (Math.random() > 0.35) {
+            r = 0.9 + Math.random() * 0.1;
+        } else {
+            r = Math.random() * 0.35;
+            isCore = true;
+        }
+
+        let x = 16 * Math.pow(Math.sin(t), 3);
+        let y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+
+        let fx = cX + (x * scale * r);
+        let fy = cY + (y * scale * r);
+
+        let el = document.createElement('div');
+        el.className = 'love-word';
+        if (isCore) el.classList.add('core-word');
+        el.innerText = 'i love you';
+        el.style.left = fx + 'px';
+        el.style.top = fy + 'px';
+
+        heartStage.appendChild(el);
+
+        setTimeout(() => {
+            el.style.animation = 'popIn 0.4s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        }, delay);
+
+        delay += 8;
+    }
+
+    setTimeout(() => {
+        modal.classList.add('active');
+    }, delay + 600);
+};
+
+const closeAlert = () => {
+    modal.classList.remove('active');
+    setTimeout(() => {
+        romaMsg.style.opacity = '1';
+    }, 400);
+};
+</script>
+</body>
+</html>
