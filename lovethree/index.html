@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для Настюши</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap');
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        color: #fff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    /* Зернистость */
+    .grain {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 10;
+        opacity: 0.12;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Стартовый экран */
+    #intro-screen {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        cursor: pointer;
+        transition: opacity 0.8s ease, visibility 0.8s;
+    }
+    .intro-text {
+        font-size: 24px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.8);
+        animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+        0% { transform: scale(0.98); opacity: 0.6; }
+        50% { transform: scale(1.02); opacity: 1; }
+        100% { transform: scale(0.98); opacity: 0.6; }
+    }
+
+    /* Жидкий фон (Apple Music style) */
+    #bg-container {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+        overflow: hidden;
+        background: #050505;
+    }
+    
+    .blob {
+        position: absolute;
+        filter: blur(90px);
+        opacity: 0.6;
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        animation: morph 15s ease-in-out infinite alternate, move 20s infinite linear;
+        mix-blend-mode: screen;
+    }
+
+    .blob-1 {
+        top: -10%; left: -10%;
+        width: 60vw; height: 60vw;
+        background: radial-gradient(circle, rgba(29,78,216,0.5) 0%, rgba(17,24,39,0) 70%);
+        animation-delay: 0s;
+    }
+
+    .blob-2 {
+        bottom: -20%; right: -10%;
+        width: 70vw; height: 70vw;
+        background: radial-gradient(circle, rgba(190,24,93,0.4) 0%, rgba(17,24,39,0) 70%);
+        animation-delay: -5s;
+    }
+
+    .blob-3 {
+        top: 20%; left: 50%;
+        width: 50vw; height: 50vw;
+        background: radial-gradient(circle, rgba(76,29,149,0.4) 0%, rgba(17,24,39,0) 70%);
+        animation-delay: -10s;
+    }
+
+    @keyframes morph {
+        0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        50% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; }
+        100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+    }
+
+    @keyframes move {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        33% { transform: translate(5vw, 5vh) rotate(10deg); }
+        66% { transform: translate(-5vw, 10vh) rotate(-5deg); }
+        100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    /* Контейнер для текста */
+    #lyrics-wrapper {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: 5;
+        pointer-events: none;
+        mask-image: linear-gradient(to bottom, transparent 5%, black 25%, black 75%, transparent 95%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 5%, black 25%, black 75%, transparent 95%);
+        opacity: 0;
+        transition: opacity 1s ease;
+        display: flex;
+        justify-content: center;
+    }
+    
+    #lyrics-scroll {
+        position: absolute;
+        top: 0; left: 0; width: 100%;
+        transition: transform 0.6s cubic-bezier(0.25, 1, 0.3, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .lyric-line {
+        font-size: 5vh;
+        font-weight: 700;
+        text-align: center;
+        width: 85%;
+        margin: 2.5vh 0;
+        color: rgba(255, 255, 255, 0.3);
+        filter: blur(2.5px);
+        transform: scale(0.9);
+        transform-origin: center;
+        transition: color 0.6s ease,
+                    filter 0.6s ease,
+                    transform 0.6s cubic-bezier(0.25, 1, 0.3, 1),
+                    opacity 0.6s ease;
+        will-change: transform, color, filter;
+    }
+
+    .lyric-line.active {
+        color: #ffffff;
+        filter: blur(0px);
+        transform: scale(1.05);
+        text-shadow: 0px 4px 30px rgba(255, 255, 255, 0.2);
+    }
+
+    .lyric-line.past {
+        color: rgba(255, 255, 255, 0.15);
+        filter: blur(4px);
+        transform: scale(0.85);
+    }
+
+    /* Финальное окошко */
+    #popup {
+        position: fixed;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -40%) scale(0.85);
+        padding: 30px 50px;
+        background: rgba(30, 30, 30, 0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        font-size: 36px;
+        font-weight: 700;
+        text-align: center;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        z-index: 20;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.8s cubic-bezier(0.25, 1, 0.3, 1);
+        color: #fff;
+    }
+    
+    #popup.show {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        pointer-events: auto;
+    }
+</style>
+</head>
+<body>
+
+<div id="intro-screen">
+    <div class="intro-text">нажми на экран, котик</div>
+</div>
+
+<div class="grain"></div>
+
+<div id="bg-container">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+</div>
+
+<div id="lyrics-wrapper">
+    <div id="lyrics-scroll"></div>
+</div>
+
+<div id="popup">я люблю тебя настюш!!</div>
+
+<script>
+const DROP_TIME = 11.35;
+const POPUP_TIME = 23.0; 
+
+const lyricsData = [
+    { time: 11.35, text: "я целую тебяя" },
+    { time: 13.0, text: "я целую тебяя" },
+    { time: 15.8, text: "я целую тебяя" },
+    { time: 18.3, text: "я целую тебяя" },
+    { time: 21.5, text: "я целую тебяя!!" }
+];
+
+const audio = new Audio('track.mp3');
+const introScreen = document.getElementById('intro-screen');
+const bgContainer = document.getElementById('bg-container');
+const lyricsWrapper = document.getElementById('lyrics-wrapper');
+const lyricsScroll = document.getElementById('lyrics-scroll');
+const popup = document.getElementById('popup');
+
+let linesElements = [];
+let effectStarted = false;
+let popupShown = false;
+
+// Отрисовка строк
+lyricsData.forEach((line, index) => {
+    const el = document.createElement('div');
+    el.className = 'lyric-line';
+    el.innerText = line.text;
+    lyricsScroll.appendChild(el);
+    linesElements.push(el);
+});
+
+// Центрирование скролла
+function updateScrollPosition(activeIndex) {
+    if (activeIndex === -1) return;
+    
+    const activeEl = linesElements[activeIndex];
+    
+    // Высчитываем центр экрана
+    const viewportCenter = window.innerHeight / 2;
+    // Высчитываем позицию элемента относительно контейнера
+    const elTop = activeEl.offsetTop;
+    const elHalfHeight = activeEl.offsetHeight / 2;
+    
+    // Сдвигаем контейнер так, чтобы элемент был ровно по центру
+    const scrollAmount = viewportCenter - (elTop + elHalfHeight);
+    
+    lyricsScroll.style.transform = `translateY(${scrollAmount}px)`;
+}
+
+// Первичное центрирование до старта
+window.addEventListener('resize', () => updateScrollPosition(0));
+
+function syncLyrics() {
+    const currentTime = audio.currentTime;
+
+    if (currentTime >= (DROP_TIME - 0.5) && !effectStarted) {
+        bgContainer.style.opacity = '1';
+        lyricsWrapper.style.opacity = '1';
+        effectStarted = true;
+    }
+
+    let activeIndex = -1;
+    for (let i = lyricsData.length - 1; i >= 0; i--) {
+        if (currentTime >= lyricsData[i].time) {
+            activeIndex = i;
+            break;
+        }
+    }
+
+    linesElements.forEach((el, index) => {
+        if (index < activeIndex) {
+            el.className = 'lyric-line past';
+        } else if (index === activeIndex) {
+            el.className = 'lyric-line active';
+        } else {
+            el.className = 'lyric-line';
+        }
+    });
+
+    if (activeIndex !== -1) {
+        updateScrollPosition(activeIndex);
+    } else {
+        updateScrollPosition(0); // Держим первую строку по центру до начала
+    }
+
+    if (currentTime >= POPUP_TIME && !popupShown) {
+        popup.classList.add('show');
+        lyricsWrapper.style.opacity = '0';
+        bgContainer.style.opacity = '0.4'; 
+        popupShown = true;
+    }
+    
+    requestAnimationFrame(syncLyrics);
+}
+
+introScreen.addEventListener('click', () => {
+    introScreen.style.opacity = '0';
+    setTimeout(() => introScreen.style.visibility = 'hidden', 800);
+    
+    updateScrollPosition(0);
+    
+    audio.currentTime = 9.0;
+    audio.play();
+    
+    requestAnimationFrame(syncLyrics);
+});
+</script>
+</body>
+</html>
